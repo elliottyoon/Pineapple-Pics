@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+nav {
+    border: solid 1px gray;
+    position: fixed;
+    top: 0px;
+    left: 0px;    
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+nav h1 {
+    margin-left: 15px;
+    padding-top: 5px;
+}
+
+nav section {
+    padding: 5px;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding: 0px;
+}
+
+li {
+    margin: 10px;
+}
