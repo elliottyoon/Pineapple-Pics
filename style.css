@@ -140,3 +140,8 @@ li {
 }
 
 
+@media (max-width: 720px) {
+    #recommendations {
+        display: none;
+    }
+}
