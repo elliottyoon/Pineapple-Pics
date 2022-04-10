@@ -12,7 +12,6 @@ body {
 /* Navigation Bar */
 
 nav {
-    border: solid 1px gray;
     position: fixed;
     top: 0px;
     left: 0px;    
@@ -50,7 +49,7 @@ li {
 /* Main content */
 
 .main {
-    background-color: lightgray;
+    background-color: rgb(216, 216, 216);
     z-index: 0;
     top: 50px;
     position: relative;
@@ -123,8 +122,8 @@ li {
 }
 
 #user-card img {
-    height: 50px;
-    width: 50px;
+    height: 55px;
+    width: 55px;
     margin: 10px;
 }
 
