@@ -3,6 +3,20 @@ body {
     margin: 0;
 }
 
+/* fonts */
+h1, h2, h3 {
+    font-family: 'Comfortaa', cursive;
+}
+
+p {
+    font-family: 'Helvetica';
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
 /* Rounded images */
 .rounded {
     object-fit: cover;
@@ -40,6 +54,7 @@ nav ul {
     flex-flow: row nowrap;
     justify-content: space-between;
     padding: 0px;
+    font-size: 12px;
 }
 
 li {
@@ -53,7 +68,6 @@ li {
     z-index: 0;
     top: 50px;
     position: relative;
-    height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: row;
@@ -62,7 +76,6 @@ li {
 #feed {
     position: relative;
     min-width: 450px;
-    /* change this later */
     width: 55%;
     padding: 20px 20px 20px 50px;
 }
@@ -70,7 +83,6 @@ li {
 /* Stories Pane */
 
 #stories {
-    margin: 10px;
     height: 40px;
     background-color: white;
     padding-top: 20px;
@@ -98,6 +110,114 @@ li {
 
 .story p {
     margin-top: 5px;
+    color: gray;
+}
+
+/* Card */
+
+#cards {
+    margin-top: 20px; /* might delete this*/
+}
+
+#cards * {
+    /* border: solid 1px black; */
+}
+
+.card {
+    background-color: white;
+    margin-bottom: 20px;
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    padding: 10px 10px;
+}
+
+.card-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    margin: 5px 10px 5px 5px;
+}
+
+.card-likes {
+    font-weight: bold;
+    font-size: 13px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    margin: -5px 5px 5px 5px;
+}
+
+.card-content {
+    padding: 5px;
+}
+
+.comment {
+    margin: 2px 5px;
+}
+
+.comment-user {
+    font-weight: bold;
+}
+
+.comment * {
+    display: inline;
+    font-size: 12px;
+}
+
+.timestamp {
+    font-size: 10px;
+    color: gray;
+    margin-left: 5px;
+}
+.card-interact, .card-interact * {
+    /* border: solid black 1px; */
+}
+
+.card-interact {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: -5px;
+    padding: 5px;
+    border-top: solid rgb(216, 216, 216) 1px;
+    font-size: 12px;
+    align-items: center;
+}
+
+.card-interact a {
+    margin: 10px;
+}
+
+.reaction {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 90%;
+}
+
+.reaction input {
+    width: 80%;
+    border: none;
+}
+
+.reaction * {
+    margin: 5px;
 }
 
 /* Recommendations Panel  */
@@ -133,6 +253,8 @@ li {
 
 #suggestions h3 {
     margin: 5px;
+    color: gray;
+    font-family: 'Helvetica'
 }
 
 .recommendation-card {
@@ -170,6 +292,10 @@ li {
 
 .username {
     font-weight: bold;
+}
+
+.suggested-for-you {
+    color: gray;
 }
 
 .follow {
