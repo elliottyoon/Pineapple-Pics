@@ -143,7 +143,7 @@ li {
 }
 
 .card-img img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
 }
 
@@ -307,7 +307,7 @@ li {
 
 /* Mobile devices */
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
     #recommendations {
         display: none;
     }
