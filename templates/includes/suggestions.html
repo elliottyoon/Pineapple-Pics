@@ -1,0 +1,19 @@
+<div id="recommendations">
+    <section id="user-card">
+         <img class="rounded" src="{{user.get('profile_url')}}" alt="">
+         <h2>{{user.get('username')}}</h2>
+    </section>
+    <section id="suggestions">
+     <h3>Suggestions for you</h3>
+        {% for suggestion in suggestions %}  
+        <section class="recommendation-card">
+             <img class="rounded" src="{{suggestion.get('thumb_url')}}" alt="">
+             <section class="recommended-username">
+                 <p class="username">{{suggestion.get('username')}}</p>
+                 <p class="suggested-for-you">suggested for you</p>
+             </section>
+             <a href="" class="follow">follow</a>
+         </section>
+         {% endfor %}
+     </section>
+ </div>

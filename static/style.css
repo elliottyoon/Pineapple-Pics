@@ -1,6 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
+    
 }
 
 /* fonts */
@@ -10,6 +11,7 @@ h1, h2, h3 {
 
 p {
     font-family: 'Helvetica';
+    text-overflow: ellipsis;
 }
 
 a {
@@ -83,24 +85,28 @@ li {
 /* Stories Pane */
 
 #stories {
-    height: 40px;
+    height: 80px;
     background-color: white;
     padding-top: 20px;
     padding-bottom: 20px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    padding: 5px;
 }
 
 .story.story {
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
     justify-content: center;
-    height: 50px;
-    width: 60px;
-    margin-left: 5px;
+    height: 75px;
+    width: 70px;
+    margin: 5px;
     font-size: 10px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .story img {
@@ -109,8 +115,14 @@ li {
 }
 
 .story p {
-    margin-top: 5px;
+    margin: 5px;
+    display: inline-block;
     color: gray;
+    width: 60px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    
 }
 
 /* Card */
@@ -238,7 +250,7 @@ li {
     justify-content: left;
     align-items: center;
     margin: 5px;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 #user-card img {
@@ -292,6 +304,7 @@ li {
 
 .username {
     font-weight: bold;
+    text-overflow: ellipsis;
 }
 
 .suggested-for-you {
