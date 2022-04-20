@@ -131,10 +131,6 @@ li {
     margin-top: 20px; /* might delete this*/
 }
 
-#cards * {
-    /* border: solid 1px black; */
-}
-
 .card {
     background-color: white;
     margin-bottom: 20px;
@@ -196,9 +192,6 @@ li {
     font-size: 10px;
     color: gray;
     margin-left: 5px;
-}
-.card-interact, .card-interact * {
-    /* border: solid black 1px; */
 }
 
 .card-interact {
@@ -333,10 +326,4 @@ li {
     #recommendations {
         display: none;
     }
-}
-
-/* for testing */
-
-.main * {
-    /* border: solid black 1px; */
 }
