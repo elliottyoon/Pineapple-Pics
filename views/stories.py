@@ -12,6 +12,8 @@ class StoriesListEndpoint(Resource):
     def get(self):
         # get stories created by one of these users:
         # print(get_authorized_user_ids(self.current_user))
+        auth_user_ids = get_authorized_user_ids(self.current_user)
+        # TODO 
         return Response(json.dumps([]), mimetype="application/json", status=200)
 
 

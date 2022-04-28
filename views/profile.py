@@ -11,7 +11,11 @@ class ProfileDetailEndpoint(Resource):
         self.current_user = current_user
 
     def get(self):
-        return Response(json.dumps({}), mimetype="application/json", status=200)
+        user = self.current_user.to_dict()
+        status = 200
+        if len(user) == 0:
+            status = 404
+        return Response(json.dumps(user), mimetype="application/json", status=status)
 
 
 def initialize_routes(api):
