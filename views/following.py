@@ -19,22 +19,30 @@ class FollowingListEndpoint(Resource):
     def post(self):
         # create a new "following" record based on the data posted in the body 
         body = request.get_json()
+        print(body)
+        # formatting
         try:
             id = int(body.get("user_id"))
-        except: 
-            return Response(json.dumps({"message": "invalid input"}), mimetype="application/json", status=400)
+        except:
+            return Response(json.dumps({"message": "Invalid formatting"}), mimetype="application/json", status=400) 
+
+        # make sure user exists
+        user = User.query.get(id)
+        if not user:
+            return Response(json.dumps({"message": "user not found"}), mimetype="application/json", status=404)  
+
+        # check for duplicates
+        following = Following.query.filter_by(user_id = self.current_user.id).all()
+        for follow in following:
+            if follow.following_id == id:
+                return Response(json.dumps({"message": "follow already exists"}), mimetype="application/json", status=400) 
         
-        followee = User.query.get(id)
-        existing_following = Following.query.filter(Following.user_id==self.current_user.id, Following.following_id==id)
-        if followee is not None:
-            if existing_following is not None:
-               return Response(json.dumps({"message": "Following object already exists"}), mimetype="application/json", status=400) 
-            following = Following(self.current_user.id, id)
-            db.session.add(following)
-            db.session.commit() 
-            print(body)
-            return Response(json.dumps(followee.to_dict()), mimetype="application/json", status=201)
-        return Response(json.dumps({"message": "user not found"}), mimetype="application/json", status=404)
+        new_follow = Following(self.current_user.id, id)
+        db.session.add(new_follow)
+        db.session.commit()
+        return Response(json.dumps(new_follow.to_dict_following()), mimetype="application/json", status=201)
+        
+             
 
 class FollowingDetailEndpoint(Resource):
     def __init__(self, current_user):

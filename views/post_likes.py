@@ -1,6 +1,6 @@
 from flask import Response, request
 from flask_restful import Resource
-from models import LikePost, Post, db
+from models import LikePost, db
 from views import can_view_post
 import json
 
@@ -17,17 +17,18 @@ class PostLikesListEndpoint(Resource):
             post_id = int(body.get("post_id"))
         except:
             return Response(json.dumps({"message": "Invalid formatting"}), mimetype="application/json", status=400)  
-        post = Post.query.get(post_id)
-        if not post:
-            return Response(json.dumps({"message": "post not found"}), mimetype="application/json", status=404) 
 
-         # post found
         if can_view_post(post_id, self.current_user):
-            like = LikePost(post.user_id, post_id)
+            # see who liked the post
+            post_likes = LikePost.query.filter_by(post_id=post_id).all()
+            for p_like in post_likes:
+                if p_like.user_id == self.current_user.id:
+                    return Response(json.dumps({"message": "Can't like a post that is already liked by user"}), mimetype="application/json", status=400)
+            like = LikePost(self.current_user.id, post_id)
             db.session.add(like)
             db.session.commit()
-            return Response(json.dumps(like.to_dict()), mimetype="application/json", status=201)
-        return Response(json.dumps({"message": "not authorized to like post"}), mimetype="application/json", status=404)
+            return Response(json.dumps(like.to_dict()),  mimetype="application/json", status=201)
+        return Response(json.dumps({"message": "post not found"}), mimetype="application/json", status=404)
 
 class PostLikesDetailEndpoint(Resource):
 
