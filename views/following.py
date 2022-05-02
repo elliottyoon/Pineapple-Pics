@@ -19,8 +19,22 @@ class FollowingListEndpoint(Resource):
     def post(self):
         # create a new "following" record based on the data posted in the body 
         body = request.get_json()
-        print(body)
-        return Response(json.dumps({}), mimetype="application/json", status=201)
+        try:
+            id = int(body.get("user_id"))
+        except: 
+            return Response(json.dumps({"message": "invalid input"}), mimetype="application/json", status=400)
+        
+        followee = User.query.get(id)
+        existing_following = Following.query.filter(Following.user_id==self.current_user.id, Following.following_id==id)
+        if followee is not None:
+            if existing_following is not None:
+               return Response(json.dumps({"message": "Following object already exists"}), mimetype="application/json", status=400) 
+            following = Following(self.current_user.id, id)
+            db.session.add(following)
+            db.session.commit() 
+            print(body)
+            return Response(json.dumps(followee.to_dict()), mimetype="application/json", status=201)
+        return Response(json.dumps({"message": "user not found"}), mimetype="application/json", status=404)
 
 class FollowingDetailEndpoint(Resource):
     def __init__(self, current_user):
@@ -29,7 +43,14 @@ class FollowingDetailEndpoint(Resource):
     def delete(self, id):
         # delete "following" record where "id"=id
         print(id)
-        return Response(json.dumps({}), mimetype="application/json", status=200)
+        following = Following.query.get(id)
+        if not following:
+            return Response(json.dumps({"message": "id={0} is invalid".format(id)}), mimetype="application/json", status=404)
+        if following.user_id != self.current_user.id:
+            return Response(json.dumps({"message": "id={0} is invalid".format(id)}), mimetype="application/json", status=404)
+        Following.query.filter_by(id=id).delete()
+        db.session.commit()
+        return Response(json.dumps({"message": "following object was successfully deleted"}), mimetype="application/json", status=200)
 
 
 

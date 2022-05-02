@@ -16,9 +16,10 @@ class FollowerListEndpoint(Resource):
         In other words, select user_id where following_id = current_user.id
         '''
         followers = Following.query.filter(Following.following_id == self.current_user.id).all()
-        ret_followers = [follower.to_dict_follower().get('follower') for follower in followers]
-        return Response(json.dumps(ret_followers), mimetype="application/json", status=200)
-
+        if followers is not None:
+            ret_followers = [follower.to_dict_follower() for follower in followers]
+            return Response(json.dumps(ret_followers), mimetype="application/json", status=200)
+        return Response(json.dumps({"message": "no followers found"}), mimetype="application/json", status=404) 
 
 def initialize_routes(api):
     api.add_resource(

@@ -92,9 +92,9 @@ class PostDetailEndpoint(Resource):
         # variable checks
         post = Post.query.get(id)
         if not post:
-            return Response({"message": "id={0} is invalid".format(id)}, mimetype="application/json", status=404)
+            return Response(json.dumps({"message": "id={0} is invalid".format(id)}), mimetype="application/json", status=404)
         if post.user_id != self.current_user.id:
-            return Response({"message": "id={0} is invalid".format(id)}, mimetype="application/json", status=404)
+            return Response(json.dumps({"message": "id={0} is invalid".format(id)}), mimetype="application/json", status=404)
         Post.query.filter_by(id=id).delete()
         db.session.commit()
         return Response(json.dumps({"message": "post was successfully deleted"}), mimetype="application/json", status=200)
