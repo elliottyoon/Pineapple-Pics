@@ -9,6 +9,9 @@ from sqlalchemy import and_
 from models import db, Post, User, Following, ApiNavigator, Story
 from views import initialize_routes, get_authorized_user_ids
 
+# change this to not be fake later
+import fake_data
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -31,10 +34,14 @@ initialize_routes(api)
 # Server-side template for the homepage:
 @app.route('/')
 def home():
-    return '''
-       <p>View <a href="/api">REST API Tester</a>.</p>
-       <p>Feel free to replace this code from HW2</p>
-    '''
+    current_user = app.current_user
+    return render_template(
+        'index.html',
+        user=current_user,
+        posts=fake_data.generate_posts(n=8),
+        stories=fake_data.generate_stories(n=6),
+        suggestions=fake_data.generate_suggestions(n=7)
+    )
 
 
 @app.route('/api')

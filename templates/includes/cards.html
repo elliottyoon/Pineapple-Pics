@@ -2,11 +2,11 @@
     {% for post in posts %}
         <section class="card">
             <div class="card-top">
-                <h2 class="card-user">{{post.get('user').get('username')}}</h3>
+                <h2 class="card-user">{{post.user.username}}</h3>
                 <i class="fas fa-ellipsis-h"></i>
             </div>
             <div class="card-img">
-                <img src="{{post.get('image_url')}}" alt="post from {{post.get('user').get('username')}}">
+                <img src="{{post.image_url}}" alt="post from {{post.user.username}}">
             </div>
             <div class="card-buttons">
                 <div class="left">
@@ -18,32 +18,32 @@
             </div>
             <div class="card-content">
                 <div class="card-likes">
-                    <p>{{post.get('likes')}} likes</p>
+                    <p>{{post.likes}} likes</p>
                 </div>
                 <!-- Description -->
                 <div class="comment">
-                    <p class="comment-user">{{post.get('user').get('username')}}</p>
-                    <p class="comment-text">{{post.get('title')}} <a href="">more</a></p>
+                    <p class="comment-user">{{post.user.username}}</p>
+                    <p class="comment-text">{{post.title}} <a href="">more</a></p>
                 </div>
                 <!-- Comment -->
-                {% if post.get('comments')|length != 0%}
-                    {% if post.get('comments')|length > 1 %}
-                        <button class="view-more">View all {{post.get('comments')|length}} comments</button>
+                {% if post.comments|length != 0%}
+                    {% if post.comments|length > 1 %}
+                        <button class="view-more">View all {{post.comments|length}} comments</button>
                     {% endif %}
                     <div class="comment">
-                        <p class="comment-user">{{post.get('comments')[0].get('user').get('username')}}</p>
+                        <p class="comment-user">{{post.comments[0].user.username}}</p>
                         <div class="comment-text">
-                            <p>{{post.get('comments')[0].get('text')}}</p>
+                            <p>{{post.comments[0].text}}</p>
                         </div>
                     </div>
                 {% endif %}
-                <p class="timestamp">{{post.get('display_time')}}</p>
+                <p class="timestamp">{{post.display_time}}</p>
             </div>
             <div class="card-interact">
                 <div class="reaction">
                     <i class="far fa-smile"></i>
-                    <label for="{{post.get('image_url')}}-label" style="display: none;">Add a comment</label>
-                    <input type="text" placeholder="Add a comment..." id="{{post.get('image_url')}}-label">
+                    <label for="{{post.image_url}}-label" style="display: none;">Add a comment</label>
+                    <input type="text" placeholder="Add a comment..." id="{{post.image_url}}-label">
                 </div>
                 <a href="">Post</a>
             </div>
