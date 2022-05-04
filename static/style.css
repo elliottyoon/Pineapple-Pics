@@ -96,6 +96,7 @@ li {
     flex-direction: row;
     justify-content: flex-start;
     padding: 5px;
+    margin-top: 30px;
 }
 
 .story.story {
@@ -238,6 +239,7 @@ li {
     flex-direction: column;
     padding: 20px;
     justify-content: space-around;
+    margin-top: 30px;
 }
 
 #user-card {

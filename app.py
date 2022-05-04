@@ -35,8 +35,8 @@ initialize_routes(api)
 @app.route('/')
 def home():
     current_user = app.current_user
-    posts = Post.query.all()
-    stories = Story.query.all()
+    posts = Post.query.limit(8).all()
+    stories = Story.query.limit(6).all()
 
     return render_template(
         'index.html',
