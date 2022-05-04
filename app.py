@@ -35,11 +35,16 @@ initialize_routes(api)
 @app.route('/')
 def home():
     current_user = app.current_user
+    posts = Post.query.all()
+    stories = Story.query.all()
+
     return render_template(
         'index.html',
         user=current_user,
-        posts=fake_data.generate_posts(n=8),
-        stories=fake_data.generate_stories(n=6),
+        # posts=fake_data.generate_posts(n=8),
+        posts = posts,
+        # stories=fake_data.generate_stories(n=6),
+        stories = stories,
         suggestions=fake_data.generate_suggestions(n=7)
     )
 

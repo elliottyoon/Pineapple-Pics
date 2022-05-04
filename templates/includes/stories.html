@@ -1,8 +1,8 @@
 <section id="stories">
     {% for story in stories %}
         <section class="story">
-            <img src="{{story.user.profile_url}}" alt="story post from {{story.user.username}}" class="rounded">
-            <p>{{story.get('user').get('username')}}</p>
+            <img src="{{story.user.image_url}}" alt="story post from {{story.user.username}}" class="rounded">
+            <p>{{story.user.username}}</p>
         </section>
     {% endfor %}
     

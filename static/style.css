@@ -39,6 +39,7 @@ nav {
     align-items: center;
     z-index: 1;
     background-color: white;
+    padding: 5px;
 }
 
 nav h1 {
@@ -79,7 +80,9 @@ li {
     position: relative;
     min-width: 450px;
     width: 55%;
-    padding: 20px 20px 20px 50px;
+    padding: 20px 20px 20px 20px;
+    margin-right: 50px;
+    margin-left: 30px;
 }
 
 /* Stories Pane */
