@@ -37,6 +37,10 @@ def home():
     current_user = app.current_user
     posts = Post.query.limit(8).all()
     stories = Story.query.limit(6).all()
+    # suggestions
+    following_ids = get_authorized_user_ids(current_user)
+    suggestions = User.query.filter(~User.id.in_(following_ids)).limit(7).all()
+    suggestions = [suggestion.to_dict() for suggestion in suggestions]
 
     return render_template(
         'index.html',
@@ -45,7 +49,8 @@ def home():
         posts = posts,
         # stories=fake_data.generate_stories(n=6),
         stories = stories,
-        suggestions=fake_data.generate_suggestions(n=7)
+        suggestions=suggestions[:7]
+        # suggestions=fake_data.generate_suggestions(n=7)
     )
 
 
