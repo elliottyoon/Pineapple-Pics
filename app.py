@@ -35,6 +35,13 @@ def home():
         'starter-client.html', 
         user=app.current_user
     )
+    
+@app.route('/lab6')
+def lab6():
+    return render_template(
+        'lab6.html',
+        user=app.current_user
+    )
 
 
 @app.route('/api')

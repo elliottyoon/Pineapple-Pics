@@ -231,6 +231,17 @@ main {
     border: solid 1px #dbdbdb;
     border-radius: 15px;
 }
+.suggestions section button {
+    border: none;
+    
+}
+.follow {
+    background: transparent;
+}
+.unfollow {
+    background: white;
+}
+
 aside header {
     display: flex;
     align-items: center;
