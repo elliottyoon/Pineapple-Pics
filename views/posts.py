@@ -27,7 +27,7 @@ class PostListEndpoint(Resource):
             return Response(json.dumps({"message": "Limit exceeds maximum limit size of 50"}), mimetype="application/json", status=400)
                   
         posts = Post.query.filter(Post.user_id.in_(user_ids)).limit(limit).all()
-        posts_dict = [post.to_dict() for post in posts] 
+        posts_dict = [post.to_dict(user=self.current_user) for post in posts] 
         # valid request
         return Response(json.dumps(posts_dict), mimetype="application/json", status=200)
 
@@ -105,7 +105,7 @@ class PostDetailEndpoint(Resource):
         post = Post.query.get(id)
         if not post:
             return Response(json.dumps({"message": "post not found"}), mimetype="application/json", status=404) 
-        post = post.to_dict()
+        post = post.to_dict(user=self.current_user)
          # post found
         if can_view_post(id, self.current_user):
             return Response(json.dumps(post), mimetype="application/json", status=200)
