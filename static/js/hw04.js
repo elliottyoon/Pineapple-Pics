@@ -91,19 +91,154 @@ const user2Html = user => {
     </section>`;
 }
 
+const displayUserProfile = () => {
+    fetch('/api/profile')
+        .then(response => response.json())
+        .then(profile => {
+            //console.log(profile);
+            const html = `<img src="${profile.image_url}" class="pic">
+                          <p>${profile.username}</p>`;
+            document.querySelector('header').innerHTML = html;
+        })
+};
+
 const displaySuggestions = () => {
     fetch('/api/suggestions')
         .then(response => response.json())
         .then(users => {
             console.log(users);
-            const html = users.map(user2Html).join('\n');
+            const html = `<div class="suggestion-text">Suggestions for you</div>` + users.map(user2Html).join('\n');
             document.querySelector('.suggestions').innerHTML = html;
         })
 };
 
+card2Html = card => {
+    let numComments = Object.keys(card.comments).length
+    switch(numComments) {
+        case 0:
+            return `
+            <section class="card">
+                <p class="header">${card.user.username}</p>
+                <img src="${card.image_url}" alt="">
+                <div class="buttons">
+                    <div class="left">
+                        <i class="far fa-heart"></i>
+                        <i class="far fa-comment"></i>
+                        <i class="far fa-paper-plane"></i>
+                    </div>
+                    <i class="far fa-bookmark" class="right"></i>
+                </div> 
+                <div class="likes">${Object.keys(card.likes).length} likes</div>    
+                <div class="caption">${card.user.username} ${card.caption}</div>
+                <p class="timestamp">${card.display_time}</p>
+                <div class="add-comment">
+                    <label for="${card.id}-label" style="display: none;">Add a comment</label>
+                    <input type="text" placeholder="Add a comment..." id="${card.id}-label">
+                    <button class="link" class="submit-comment">Post</button>
+
+                </div>
+            </section>`
+        case 1:
+            return `
+            <section class="card">
+                <p class="header">${card.user.username}</p>
+                <img src="${card.image_url}" alt="">
+                <div class="buttons">
+                    <div class="left">
+                        <i class="far fa-heart"></i>
+                        <i class="far fa-comment"></i>
+                        <i class="far fa-paper-plane"></i>
+                    </div>
+                    <i class="far fa-bookmark" class="right"></i>
+                </div> 
+                <div class="likes">${Object.keys(card.likes).length} likes</div>    
+                <div class="caption">
+                    <p>${card.user.username} ${card.caption}</p>
+                </div>
+                <div class="comments">
+                    <p>${card.comments[0].user.username} ${card.comments[0].text}</p>
+                </div> 
+                <p class="timestamp">${card.display_time}</p>
+                <div class="add-comment">
+                    <label for="${card.id}-label" style="display: none;">Add a comment</label>
+                    <input type="text" placeholder="Add a comment..." id="${card.id}-label">
+                    <button class="link" class="submit-comment">Post</button>
+
+                </div>
+            </section>` 
+        default:
+            return `
+            <section class="card">
+                <p class="header">${card.user.username}</p>
+                <img src="${card.image_url}" alt="">
+                <div class="buttons">
+                    <div class="left">
+                        <i class="far fa-heart"></i>
+                        <i class="far fa-comment"></i>
+                        <i class="far fa-paper-plane"></i>
+                    </div>
+                    <i class="far fa-bookmark" class="right"></i>
+                </div> 
+                <div class="likes">${Object.keys(card.likes).length} likes</div>    
+                <div class="caption">${card.user.username} ${card.caption}</div>
+                <button class="link">View all ${Object.keys(card.comments).length} comments</button>
+                <div class="comments">  
+                    <p>${card.comments[0].user.username} ${card.comments[0].text}</p>
+                </div>
+                <p class="timestamp">${card.display_time}</p>
+                <div class="add-comment">
+                    <label for="${card.id}-label" style="display: none;">Add a comment</label>
+                    <input type="text" placeholder="Add a comment..." id="${card.id}-label">
+                    <button class="link" class="submit-comment">Post</button>
+                </div>
+            </section>`
+    }
+    
+};
+
+const displayCards =() => {
+    fetch('/api/posts')
+        .then(response => response.json())
+        .then(posts => {
+            console.log(posts);
+            const html = posts.map(card2Html).join('\n');
+            console.log(html);
+            document.querySelector('#posts').innerHTML = html;
+        })
+};
+
+// <div class="likes">47 likes</div>
+// <div class="caption">
+//     <p>ravendavis hello</p>
+// </div>
+// {% if post.get('comments')|length != 0%}
+//     {% if post.get('comments')|length > 1 %}
+//         <button class="view-more">View all {{post.get('comments')|length}} comments</button>
+//     {% endif %}
+//     <div class="comment">
+//         <p class="comment-user">{{post.get('comments')[0].get('user').get('username')}}</p>
+//         <div class="comment-text">
+//             <p>{{post.get('comments')[0].get('text')}}</p>
+//         </div>
+//     </div>
+// {% endif %}
+// <p class="timestamp">{{post.get('display_time')}}</p>
+// </div>
+// <div class="card-interact">
+// <div class="reaction">
+//     <i class="far fa-smile"></i>
+//     <label for="{{post.get('image_url')}}-label" style="display: none;">Add a comment</label>
+//     <input type="text" placeholder="Add a comment..." id="{{post.get('image_url')}}-label">
+// </div>
+// <a href="">Post</a>
+// </div>
+
+
 const initPage = () => {
     displayStories();
+    displayUserProfile();
     displaySuggestions();
+    displayCards();
 };
 
 // invoke init page to display stories:

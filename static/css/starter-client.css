@@ -30,6 +30,10 @@ button.link {
     color: rgb(44, 105, 155);
     background-color: transparent;
     border-width: 0px;
+
+    margin-left: 10px;
+    display: flex;
+    justify-content: flex-start;
 }
 button.link:hover {
     color: #777;
@@ -87,10 +91,13 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: flex-end;
 }
 
 #posts {
     width: 50vw;
+    min-width: 540px;
+
 }
 
 .stories {
@@ -105,6 +112,7 @@ main {
     margin-bottom: 30px;
     background-color: #fff;
     overflow: hidden;
+
 }
 .stories > div {
     margin-right: 20px;
@@ -135,6 +143,8 @@ main {
     background-color: #fff;
     width: 50vw;
     min-width: 540px;
+    display: flex;
+    flex-direction: column;
 }
 
 .card img {
@@ -149,6 +159,8 @@ main {
 .card .buttons {
     font-size: 1.3em;
     padding: 5px;
+    margin: 5px;
+
 }
 .card .buttons i {
     margin-right: 4px;
@@ -196,6 +208,7 @@ main {
     color: #666;
     font-weight: 600;
     letter-spacing: 0px;
+    margin-bottom: 10px;
 }
 
 .suggestions section {
@@ -246,11 +259,17 @@ aside header {
     display: flex;
     align-items: center;
     width: 25vw;
+    margin-bottom: 25px;
+}
+
+aside header p {
+    font-size: 1.5em;
+    font-weight: 400;
 }
 
 aside header .pic {
-    min-width: 60px;
-    min-height: 60px;
+    width: 60px;
+    height: 60px;
     border-radius: 33px;
     border-width: 0px;
     margin-right: 20px;
