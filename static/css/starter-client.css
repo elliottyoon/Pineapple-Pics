@@ -168,13 +168,21 @@ main {
 
 .card  button.link {
     font-size: 1em;
+    margin: 0px 20px;
+
 }
 
-.card .caption, .card .comments, .likes {
-    padding: 0px 5px;
+.card .caption, .card .comments {
+    padding: 0px 5px 5px 5px;
 }
+
+.likes, .timestamp {
+    margin-left: 10px;
+}
+
+
 .card .caption p, .card .comments p {
-    margin: 8px 0px 3px 0px;
+    margin: 8px 5px 3px 5px;
     font-size: 0.9em;
 }
 .card .timestamp {
@@ -182,6 +190,7 @@ main {
     text-transform: uppercase;
     font-size: 0.70em !important;
     margin-bottom: 5px;
+    margin-left: 10px;
 }
 .card .add-comment {
     border-top: solid 1px #dbdbdb;
