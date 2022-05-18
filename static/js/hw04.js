@@ -1,3 +1,56 @@
+/*
+
+
+
+
+
+Do not forget to update like count
+stupid
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 const toggleFollow = ev => {
     const elem = ev.currentTarget;
 
@@ -114,17 +167,58 @@ const displaySuggestions = () => {
 
 card2Html = card => {
     let numComments = Object.keys(card.comments).length
+
+    let alreadyLiked = 'True';
+    let heartFill = 'fas';
+    let likeId = `data-like-id = "${card.current_user_like_id}"`;
+
+    if (card.current_user_like_id === undefined) {
+        alreadyLiked = 'False';
+        heartFill = 'far';
+        likeId = "";
+    } 
+
+    let alreadyBookmarked = 'True';
+    let bookmarkFill = 'fas';
+    let bookmarkId = `data-bookmark-id = "${card.current_user_bookmark_id}"`;
+    if (card.current_user_bookmark_id === undefined) {
+        alreadyBookmarked = 'False';
+        bookmarkFill = 'far';
+        bookmarkId = "";
+    } 
+
     html = `
         <section class="card">
             <h2 class="header">${card.user.username}</h2>
             <img src="${card.image_url}" alt="">
             <div class="buttons">
                 <div class="left">
-                    <i class="far fa-heart"></i>
-                    <i class="far fa-comment"></i>
-                    <i class="far fa-paper-plane"></i>
+                    <button class="bt-like" 
+                            aria-label="Like"
+                            aria-checked="${alreadyLiked}"
+                            data-post-id=${card.id}
+                            data-num-likes=${Object.keys(card.likes).length}
+                            onclick=toggleLike(event)
+                            ${likeId}>
+                        <i class="${heartFill} fa-heart fa-lg"></i>
+                    </button>
+                    <button class="bt-comment">
+                        <i class="far fa-comment fa-lg"></i>
+                    </button>
+                    <button class="bt-message">
+                        <i class="far fa-paper-plane fa-lg"></i>
+                    </button>
                 </div>
-                <i class="far fa-bookmark" class="right"></i>
+                <button class="bt-bookmark" 
+                        aria-label="Bookmark" 
+                        aria-checked="${alreadyBookmarked}"
+                        data-post-id=${card.id}
+                        onclick=toggleBookmark(event)
+                        ${bookmarkId}
+                        class="right"
+                        >
+                    <i class="${bookmarkFill} fa-bookmark fa-lg" ></i>
+                </button>
             </div> 
             <div class="likes">${Object.keys(card.likes).length} likes</div>    
             <div class="caption">
@@ -166,9 +260,70 @@ const displayCards =() => {
         })
 };
 
-const likePost = (post_id)  => {
+const toggleLike = ev => {
+    const elem = ev.currentTarget;
+
+    if (elem.getAttribute('aria-checked') === 'False') {
+        like(elem.dataset.postId, elem);
+    }
+    else {
+        unlike(elem.dataset.likeId,elem);
+    }
+}
+
+const toggleBookmark = ev => {
+    const elem = ev.currentTarget;
+
+    if (elem.getAttribute('aria-checked') === 'False') {
+        addBookmark(elem.dataset.postId, elem);
+    }
+    else {
+        removeBookmark(elem.dataset.bookmarkId,elem);
+    } 
+}
+
+const addBookmark = (postId, elem) => {
     const postData = {
-        "post_id": post_id
+        "post_id": postId
+    };
+    
+    fetch("http://127.0.0.1:5000/api/bookmarks/", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            elem.children[0].classList.remove("far"); 
+            elem.children[0].classList.add("fas");
+            elem.setAttribute('aria-checked', 'True');
+            elem.setAttribute('data-bookmark-id', data.id);
+        });
+}
+
+const removeBookmark = (bookmarkId, elem) => {
+    fetch(`http://127.0.0.1:5000/api/bookmarks/${bookmarkId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        elem.children[0].classList.remove("fas"); 
+        elem.children[0].classList.add("far");
+        elem.setAttribute('aria-checked', 'False');
+        elem.removeAttribute('data-bookmark-id', data.id);
+    });
+}
+
+const like = (postId, elem) => {
+    const postData = {
+        "post_id": postId
     };
     
     fetch("http://127.0.0.1:5000/api/posts/likes/", {
@@ -181,32 +336,38 @@ const likePost = (post_id)  => {
         .then(response => response.json())
         .then(data => {
             console.log(data);
+            elem.children[0].classList.remove("far"); 
+            elem.children[0].classList.add("fas");
+            elem.setAttribute('aria-checked', 'True');
+            elem.setAttribute('data-like-id', data.id);
+            console.log(data.numLikes);
+            //  elem.parentElement.parentElement.parentElement.children[3].innerHTML;
         });
 }
 
-/*** Event Handlers */
-const addLikeEndpoint = () => {
-    let hearts = document.querySelectorAll('.far.fa-heart');
-    console.log(hearts);
-    hearts.forEach(heart => {
-        heart.addEventListener('click', () => {
-            //likePost();
-            console.log(heart);
-        });
+const unlike = (likeId, elem) => {
+    fetch(`http://127.0.0.1:5000/api/posts/likes/${likeId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        elem.children[0].classList.remove("fas"); 
+        elem.children[0].classList.add("far");
+        elem.setAttribute('aria-checked', 'False');
+        elem.removeAttribute('data-like-id', data.id);
+
     });
 }
-
-
-
 
 async function initPage() {
     displayStories();
     displayUserProfile();
     displaySuggestions();
-    displayCards()
-    await new Promise(r => setTimeout(r, 5000));
-    addLikeEndpoint();
-    
+    displayCards();
 };
 
 // invoke init page to display stories:
