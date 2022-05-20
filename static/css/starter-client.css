@@ -296,6 +296,55 @@ aside header .pic {
     display: none;
 }
 
+/***********************************************/
+
+.modal-bg {
+    background: rgba(50, 50, 50, 0.8);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    width: 60vw;
+    height: auto;
+    max-height: 80vh;
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.close {
+    align-self: flex-end;
+}
+
+.hidden {
+    display: none !important; 
+}
+
+.modal-body {
+    overflow-y: auto;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    align-content: flex-start;
+    padding: 10px;
+    align-items: center;
+    border-bottom: solid 1px #CCC;
+}
+
+/***********************************************/
+
 @media (max-width: 900px) {
     aside {
         display: none;
