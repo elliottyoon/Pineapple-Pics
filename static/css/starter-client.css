@@ -310,6 +310,11 @@ aside header .pic {
     justify-content: center;
 }
 
+.modal-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
 .modal {
     width: 60vw;
     height: auto;

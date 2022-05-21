@@ -35,11 +35,20 @@ const user2Html = user => {
 const post2Modal = post => {
     return `
     <div class="modal-bg"  aria-hidden="false" role="dialog">
-        <section class="modal">
-            <button class="close" aria-label="Close the modal window" onClick="closeModal(event);">Close</button>
-            <img src="${post.image_url}"/>
+    <button class="close" aria-label="Close the modal window" onClick="closeModal(event);">Close</button>
+    <section class="modal">
+        <img src="${post.image_url}" alt="">
+        <section class="modal-body">
+            <div class="modal-profile">
+                <img src="${post.user.image_url}" class="pic">
+                <h1>${post.user.username}</h1>
+            </div>
+            <div class="row">
+                ${displayAllComments(post)}
+            </div>
         </section>
-    </div>
+    </section>
+</div>
     `;
 }
 
@@ -57,6 +66,18 @@ const displayComments = card => {
                 </div>`;
     }
     return '';
+}
+
+const displayAllComments = card => {
+    html = ''
+    for (let i = 0; i < card.comments.length; i++) {
+        html += `<div class="comments">
+                    <p><b>${card.comments[i].user.username}</b> ${card.comments[i].text}</p>
+                </div>
+                `; 
+    }
+    console.log(html);
+    return html;
 }
 
 
@@ -220,7 +241,7 @@ const like = (postId, elem) => {
             elem.setAttribute('data-num-likes', updatedLikeCount.toString());
             // let likeDiv = document.getElementById(`post_${postId}`).getElementsByClassName("likes")[0];
             // likeDiv.textContent = `${elem.getAttribute('data-num-likes')} likes`;
-            redrawPost(postId, card2Html);
+            redrawPost(postId, false, card2Html);
 
         });
 }
@@ -245,7 +266,7 @@ const unlike = (postId, likeId, elem) => {
         // let likeDiv = document.getElementById(`post_${postId}`).getElementsByClassName("likes")[0];
         // likeDiv.textContent = `${elem.getAttribute('data-num-likes')} likes`;
 
-        redrawPost(postId, card2Html);
+        redrawPost(postId, false, card2Html);
 
 
     });
@@ -281,7 +302,7 @@ const addComment = (postId, text, inputId, elem) => {
             // clear input box
             document.getElementById(inputId).value = "";
             // redraw post to display new comment
-            redrawPost(postId, card2Html);
+            redrawPost(postId, false, card2Html);
         });
 }
 
@@ -360,7 +381,7 @@ const modalElement = document.querySelector('.modal-bg');
 
 const showModal = ev => {
     const postId = Number(ev.currentTarget.dataset.postId);
-    redrawPost(postId, post => {
+    redrawPost(postId, true, post => {
         const html = post2Modal(post);
         document.querySelector(`#post_${post.id}`).insertAdjacentHTML('beforeend', html);
     });
@@ -370,13 +391,13 @@ const closeModal = ev => {
     document.querySelector('.modal-bg').remove();
 }
 
-const redrawPost = (postId, callback) => {
+const redrawPost = (postId, isModal, callback) => {
     fetch(`/api/posts/${postId}`)
         .then(response => response.json())
         .then(updatedPost => {
-            if(!callback) {
+            if(isModal) {
                 // modalk
-                redrawCard(updatedPost);
+                callback(updatedPost)
             } else {
                 const html = callback(updatedPost);
                 const newElement = stringToHTML(html);
@@ -421,6 +442,7 @@ const displayUserProfile = () => {
         .then(response => response.json())
         .then(profile => {
             //console.log(profile);
+            username = profile.username;
             const html = `<img src="${profile.image_url}" class="pic">
                           <h1>${profile.username}</h1>`;
             document.querySelector('header').innerHTML = html;
