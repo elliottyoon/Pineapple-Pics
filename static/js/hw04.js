@@ -34,20 +34,31 @@ const user2Html = user => {
 
 const post2Modal = post => {
     return `
-    <div class="modal-bg"  aria-hidden="false" role="dialog">
-    <button class="close" aria-label="Close the modal window" onClick="closeModal(event);">Close</button>
-    <section class="modal">
-        <img src="${post.image_url}" alt="">
-        <section class="modal-body">
+    <div class="modal-bg"  aria-hidden="false" role="dialog" tabindex="-1">
+    <button class="close" 
+            data-post-id="${post.id}"
+            aria-label="Close the modal window"
+            aria-checked="true"         
+            onClick="closeModal(event);">
+        <i class="fas fa-times fa-3x"></i>
+    </button>
+
+    <div class="modal">
+        <div class="modal-image">
+            <img src="${post.image_url}" alt="" class="left">
+        </div>
+        <div class="modal-body">
             <div class="modal-profile">
                 <img src="${post.user.image_url}" class="pic">
-                <h1>${post.user.username}</h1>
+                <h1 class="profile-name">${post.user.username}</h1>
             </div>
             <div class="row">
-                ${displayAllComments(post)}
+                ${displayModalComments(post)}
             </div>
-        </section>
-    </section>
+        </div>
+        
+        
+    </div>
 </div>
     `;
 }
@@ -56,7 +67,10 @@ const displayComments = card => {
     console.log(card.comments);
 
     if (card.comments.length > 1) {
-        return `<button data-post-id=${card.id} onclick="showModal(event)" class="link">View all ${card.comments.length} Comments</button>
+        return `<button data-post-id=${card.id} 
+                        onclick="showModal(event)" 
+                        class="link"
+                        id="${card.id}-open-modal">View all ${card.comments.length} Comments</button>
                 <div class="comments">
                     <p><b>${card.comments[card.comments.length - 1].user.username}</b> ${card.comments[card.comments.length - 1].text}</p>
                 </div>`;
@@ -68,15 +82,20 @@ const displayComments = card => {
     return '';
 }
 
-const displayAllComments = card => {
+const displayModalComments = card => {
     html = ''
     for (let i = 0; i < card.comments.length; i++) {
-        html += `<div class="comments">
-                    <p><b>${card.comments[i].user.username}</b> ${card.comments[i].text}</p>
+        html += `<div class="modal-comments">
+                    <div class="comment-image">            
+                        <img src="${card.comments[i].user.thumb_url}" alt="" class="pic">
+                    </div>
+                    <div class="comment-content">
+                        <p><b>${card.comments[i].user.username}</b> ${card.comments[i].text}</p>    
+                        <p class="timestamp">${card.comments[i].display_time}</p>
+                    </div>
                 </div>
                 `; 
     }
-    console.log(html);
     return html;
 }
 
@@ -323,7 +342,7 @@ const followUser = (userId, elem) => {
         "user_id": userId
     };
     
-    fetch("http://127.0.0.1:5000/api/following/", {
+    fetch(`http://127.0.0.1:5000/api/following/`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -377,18 +396,33 @@ const displaySuggestions = () => {
 
 const modalElement = document.querySelector('.modal-bg');
 
-
-
 const showModal = ev => {
     const postId = Number(ev.currentTarget.dataset.postId);
     redrawPost(postId, true, post => {
         const html = post2Modal(post);
         document.querySelector(`#post_${post.id}`).insertAdjacentHTML('beforeend', html);
-    });
+        html.onload = document.querySelector('.close').focus();
+    })
+    document.addEventListener('keydown', escapeModal);
+}
+
+const escapeModal = (event) => {
+    if (event.key === 'Escape') {
+        closeModal(event);
+    }
 }
 
 const closeModal = ev => {
-    document.querySelector('.modal-bg').remove();
+    elem = document.querySelector('.close');
+    const postId = elem.dataset.postId;
+
+    document.removeEventListener('keydown', escapeModal);
+
+    elem.setAttribute('aria-hidden', 'true');
+    document.querySelector('.modal-bg').remove();   
+    document.getElementById(`${postId}-open-modal`).focus()
+
+    console.log(document.activeElement);
 }
 
 const redrawPost = (postId, isModal, callback) => {
@@ -405,13 +439,6 @@ const redrawPost = (postId, isModal, callback) => {
                 postElement.innerHTML = newElement.innerHTML;
             }
         })    
-};
-
-const redrawCard = post => {
-    const html = post2Html(post);
-    const newElement = stringToHTML(html);
-    const postElement = document.querySelector(`#post_${post.id}`);
-    postElement.innerHTML = newElement.innerHTML;
 };
 
 
