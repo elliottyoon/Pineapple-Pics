@@ -9,6 +9,7 @@ class AccessTokenEndpoint(Resource):
 
     # Create a route to authenticate your users and return JWT Token. The
     # create_access_token() function is used to actually generate the JWT.
+    # @flask_jwt_extended.jwt_required()
     def post(self):
         body = request.get_json() or {}
         username = body.get('username')
@@ -35,6 +36,7 @@ class AccessTokenEndpoint(Resource):
 
 class RefreshTokenEndpoint(Resource):
     
+    # @flask_jwt_extended.jwt_required()
     def post(self):
         body = request.get_json() or {}
         refresh_token = body.get('refresh_token')

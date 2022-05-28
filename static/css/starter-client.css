@@ -172,6 +172,21 @@ main {
 
 }
 
+.fas.fa-heart {
+    color: red;
+}
+
+.fas.fa-times {
+    color: white;
+}
+
+.close {
+    background-color: transparent;
+    border-width: 0px; 
+    height: 30px;
+    width: 30px;
+}
+
 .card .caption, .card .comments {
     padding: 0px 5px 5px 5px;
 }
@@ -190,7 +205,6 @@ main {
     text-transform: uppercase;
     font-size: 0.70em !important;
     margin-bottom: 5px;
-    margin-left: 10px;
 }
 .card .add-comment {
     border-top: solid 1px #dbdbdb;
@@ -295,6 +309,141 @@ aside header .pic {
 .visuallyhidden {
     display: none;
 }
+
+/***********************************************/
+
+.modal-bg {
+    z-index: 1;
+    background: rgba(50, 50, 50, 0.8);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+
+.modal {
+    width: 95vw;
+    height: 85vh;
+
+    background-color: white;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: auto auto;
+
+    margin: auto;
+    padding: 0;
+}
+
+.modal-image {
+    height: 100%;
+    width: auto;
+    /* position: fixed; */
+    border-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.modal-image img {
+    height: 100%;
+    width: 85vh;
+    border-radius: inherit;
+    overflow: clip;
+}
+
+.modal-body {
+    /* nothing */
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border: 0 solid #000;
+}
+
+
+.hidden {
+    display: none !important; 
+}
+
+.modal-body {
+    overflow-y: auto;
+}
+
+.modal-body .pic {
+    width: 40px;
+    height: 40px;
+    border: solid 1px #dbdbdb;
+    border-radius: 20px;
+}
+
+.modal-comments {
+    display: grid;
+    align-items: start;
+    grid-template-columns: 40px auto;
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.comment-content .timestamp {
+    margin-left: 0;
+    margin-top: -5px;
+}
+
+.modal-profile {
+    display: flex;
+    position: sticky;
+    top: 0;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border-bottom: 1px solid #dbdbdb;
+
+}
+
+.profile-name {
+    margin-left: 10px;
+}
+
+.comment-content {
+    margin-left: 10px;
+    margin-top: -10px;
+}
+
+.row {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+    align-content: flex-start;
+    padding: 10px;
+    margin-left: 0;
+    /* margin-top: 86px; */
+}
+
+.close {
+    margin-top: 10px;
+    margin-right: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    align-self: flex-end;
+}
+
+
+/***********************************************/
 
 @media (max-width: 900px) {
     aside {
