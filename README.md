@@ -1,6 +1,6 @@
 ## Welcome to Pineapple Pics!
 
-This is a full stack Instagram clone I developed throughout the duration of my CS396 web development class at Northwestern.
+This is a full stack Instagram clone I developed throughout the duration of my web development class at Northwestern.
 
 The branch structure is as follows:
 * **Main**: Client side react.js that dynamically renders from backend web server (like Flask server in HW05)
