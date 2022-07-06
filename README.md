@@ -3,7 +3,7 @@
 This is a full stack Instagram clone I developed throughout the duration of my web development class at Northwestern.
 
 The branch structure is as follows:
-* **Main**: Client side react.js that dynamically renders from backend web server (like Flask server in HW05)
+* **Main**: Client side react.js that dynamically renders from backend web server (like Flask server in HW05). This was the final project.
 * **HW01**: Static site template with HTML/CSS
 * **HW02**: Dynamically generated site with Flask and Jinja server-side templates
 * **HW03**: Added REST API endpoints on the web server instead of direct access
